@@ -54,6 +54,15 @@ input[type=text]::placeholder{color:#2a2618}
 </style>
 </head>
 <body>
+<div id="error" style="display:none;color:red;padding:20px;font-family:monospace;font-size:12px;background:#1a0000;position:fixed;top:0;left:0;right:0;z-index:9999;word-break:break-all"></div>
+<script>
+window.onerror = function(msg, src, line, col, err) {
+  var d = document.getElementById("error");
+  d.style.display = "block";
+  d.innerHTML = "ERROR: " + msg + "<br>Line: " + line + "<br>Source: " + src;
+  return false;
+};
+</script>
 <div class="glow1"></div>
 <div class="glow2"></div>
 <div id="root"></div>
