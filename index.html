@@ -4,39 +4,82 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>The Projectionist</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#07070e}</style>
+<title>The Projectionist — What Should You Watch?</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#07070e;color:#ede8df;font-family:Georgia,"Times New Roman",serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px}
+#root{width:100%;max-width:580px;position:relative;z-index:1}
+.glow1{position:fixed;top:-25%;left:50%;transform:translateX(-50%);width:800px;height:600px;border-radius:50%;background:radial-gradient(ellipse,rgba(200,140,10,.06) 0%,transparent 65%);pointer-events:none}
+.glow2{position:fixed;bottom:-30%;right:-15%;width:600px;height:600px;border-radius:50%;background:radial-gradient(ellipse,rgba(80,40,160,.05) 0%,transparent 65%);pointer-events:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes flicker{0%,100%{opacity:1}93%{opacity:.4}94%{opacity:1}}
+.fu{animation:fadeUp .4s cubic-bezier(.25,.8,.25,1) both}
+.opt{transition:all .15s;cursor:pointer;display:flex;align-items:center;gap:13px;padding:13px 16px;text-align:left;font-family:Georgia,"Times New Roman",serif;font-size:15px;border:1px solid #3a3828;background:rgba(255,255,255,.01);color:#b0a090;width:100%}
+.opt:hover{transform:translateX(4px)}
+.opt.on{border-color:#b8820a;background:rgba(184,130,10,.07);color:#ede8df}
+.opt-check{width:15px;height:15px;flex-shrink:0;border:1px solid #5a5040;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;font-size:9px;color:#07070e}
+.opt-check.sq{border-radius:2px}
+.opt.on .opt-check{border-color:#b8820a;background:#b8820a}
+.yn{display:flex;gap:14px}
+.yn button{flex:1;padding:20px;font-family:Georgia,"Times New Roman",serif;font-size:17px;border:1px solid #3a3828;background:rgba(255,255,255,.01);color:#b0a090;cursor:pointer;transition:all .15s}
+.yn button.on{border-color:#b8820a;background:rgba(184,130,10,.1);color:#e0a820}
+.gold-btn{background:#b8820a;color:#07070e;border:none;padding:15px 34px;font-size:12px;font-family:Georgia,"Times New Roman",serif;letter-spacing:.22em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:opacity .2s,transform .15s}
+.gold-btn:hover{opacity:.82;transform:translateY(-1px)}
+.ghost-btn{background:transparent;border:1px solid #3a3828;color:#b0a090;padding:15px 22px;font-size:12px;font-family:Georgia,"Times New Roman",serif;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:opacity .2s,transform .15s}
+.ghost-btn:hover{opacity:.82;transform:translateY(-1px)}
+.ghost-btn.gold{border-color:#b8820a;color:#b8820a;padding:16px;width:100%}
+.ghost-btn.dark{width:100%;padding:14px}
+.progress-bar{height:1px;background:#161410;margin-bottom:36px}
+.progress-fill{height:100%;background:linear-gradient(90deg,#b8820a,#e0a820);transition:width .5s ease}
+.progress-label{display:flex;justify-content:space-between;margin-bottom:10px}
+.progress-label span{font-size:10px;letter-spacing:.3em;text-transform:uppercase}
+.progress-label span:first-child{color:#b8820a}
+.progress-label span:last-child{color:#2e2a20}
+.card{border:1px solid #1e1c12;padding:32px 28px;margin-bottom:20px;position:relative;background:rgba(255,255,255,.012)}
+.corner-tl{position:absolute;top:-1px;left:-1px;width:36px;height:36px;border-top:2px solid #b8820a;border-left:2px solid #b8820a}
+.corner-br{position:absolute;bottom:-1px;right:-1px;width:36px;height:36px;border-bottom:2px solid #b8820a;border-right:2px solid #b8820a}
+.tagline{font-size:17px;font-style:italic;color:#b8820a;line-height:1.55;margin-bottom:18px;border-left:2px solid #b8820a;padding-left:16px}
+.meta{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;align-items:center}
+.meta span{font-size:11px;color:#4a4030;letter-spacing:.1em;text-transform:uppercase}
+.meta-dot{color:#2a2818}
+.why{font-size:14px;color:#7a7060;line-height:1.75}
+.section-label{font-size:10px;letter-spacing:.35em;color:#b8820a;text-transform:uppercase;margin-bottom:26px}
+input[type=text]{width:100%;padding:16px 18px;background:rgba(255,255,255,.02);border:1px solid #3a3828;color:#ede8df;font-family:Georgia,"Times New Roman",serif;font-size:16px;caret-color:#b8820a;outline:none}
+input[type=text]:focus{border-color:#b8820a}
+input[type=text]::placeholder{color:#2a2618}
+.btn-row{display:flex;gap:12px;margin-top:30px}
+.action-col{display:flex;flex-direction:column;gap:10px}
+.hint{font-size:10px;color:#2e2a20;letter-spacing:.2em;text-transform:uppercase;margin-top:4px}
+.passed{font-size:10px;color:#252218;text-align:center;margin-top:18px;letter-spacing:.18em;text-transform:uppercase}
+</style>
 </head>
 <body>
+<div class="glow1"></div>
+<div class="glow2"></div>
 <div id="root"></div>
-<script type="text/babel">
-const { useState } = React;
-
+<script>
 const F = [
 // ── COMEDY ──────────────────────────────────────────────────────────────────
-{t:“The Grand Budapest Hotel”,y:2014,d:“Wes Anderson”,r:“1h 39m”,fl:“🇩🇪”,g:“Comedy / Adventure”,tl:“A perfectly absurd caper wrapped in pink pastry.”,wh:“Wes Anderson at his most exuberant — exquisitely designed, hilarious, and just melancholy enough to linger.”,mood:[“laugh”,“chill”],energy:[“little”,“mid”],len:[“mid”],who:[“solo”,“couple”,“friends”],era:[“new”],sub:“ok”,genre:[“comedy”,“adventure”],end:“open”,style:[“colorful”,“stylized”],pace:“mid”,set:“hist”,intens:“light”,twist:“maybe”},
-{t:“Superbad”,y:2007,d:“Greg Mottola”,r:“1h 53m”,fl:“🇺🇸”,g:“Comedy”,tl:“One legendary night of spectacular failure.”,wh:“Endlessly quotable, surprisingly heartfelt, and the definitive hangout comedy.”,mood:[“laugh”],energy:[“zero”,“little”],len:[“mid”],who:[“friends”],era:[“2000s”],sub:“ok”,genre:[“comedy”],end:“happy”,style:[“gritty”],pace:“fast”,set:“modern”,intens:“light”,twist:“no”},
-{t:“Game Night”,y:2018,d:“John Francis Daley”,r:“1h 40m”,fl:“🇺🇸”,g:“Comedy / Thriller”,tl:“A game night that gets very, very real.”,wh:“Clever, self-aware, and genuinely funny — great for groups who want laughs with a twist.”,mood:[“laugh”,“excited”],energy:[“little”,“mid”],len:[“mid”],who:[“friends”,“couple”],era:[“new”],sub:“ok”,genre:[“comedy”,“thriller”],end:“happy”,style:[“colorful”,“stylized”],pace:“fast”,set:“modern”,intens:“light”,twist:“yes”},
-{t:“Knives Out”,y:2019,d:“Rian Johnson”,r:“2h 10m”,fl:“🇺🇸”,g:“Mystery / Comedy”,tl:“Everyone’s a suspect. Everyone’s lying. It’s delightful.”,wh:“A masterclass in fun — smart, funny, endlessly rewatchable. Perfect for any crowd.”,mood:[“laugh”,“mindblow”],energy:[“mid”],len:[“long”],who:[“solo”,“couple”,“friends”,“family”],era:[“new”],sub:“ok”,genre:[“comedy”,“mystery”,“thriller”],end:“happy”,style:[“cozy”,“stylized”],pace:“mid”,set:“modern”,intens:“light”,twist:“yes”},
-{t:“The Nice Guys”,y:2016,d:“Shane Black”,r:“1h 56m”,fl:“🇺🇸”,g:“Comedy / Noir”,tl:“Two terrible detectives, one perfect movie.”,wh:“Crackerjack chemistry, sharp writing, killer 70s LA setting — wildly underrated.”,mood:[“laugh”,“excited”],energy:[“mid”],len:[“mid”],who:[“solo”,“couple”,“friends”],era:[“new”],sub:“ok”,genre:[“comedy”,“crime”,“thriller”],end:“open”,style:[“gritty”,“stylized”],pace:“fast”,set:“hist”,intens:“med”,twist:“yes”},
-{t:“Clue”,y:1985,d:“Jonathan Lynn”,r:“1h 34m”,fl:“🇺🇸”,g:“Comedy / Mystery”,tl:“Three endings. Zero explanations. Total chaos.”,wh:“Absurdist, theatrical, wildly fun — the ultimate group watch.”,mood:[“laugh”],energy:[“zero”,“little”],len:[“short”],who:[“friends”,“family”],era:[“classic”],sub:“ok”,genre:[“comedy”,“mystery”],end:“happy”,style:[“cozy”],pace:“mid”,set:“hist”,intens:“light”,twist:“yes”},
-{t:“Paddington 2”,y:2017,d:“Paul King”,r:“1h 43m”,fl:“🇬🇧”,g:“Comedy / Family”,tl:“The most wholesome film ever made, full stop.”,wh:“Genuinely perfect. Kind, funny, visually inventive — adults love it as much as kids.”,mood:[“laugh”,“chill”],energy:[“zero”],len:[“mid”],who:[“kids”,“family”],era:[“new”],sub:“ok”,genre:[“comedy”,“animation”],end:“happy”,style:[“colorful”,“cozy”],pace:“mid”,set:“modern”,intens:“light”,twist:“no”},
-{t:“What We Do in the Shadows”,y:2014,d:“Taika Waititi”,r:“1h 26m”,fl:“🇳🇿”,g:“Horror Comedy”,tl:“Vampire flatmates. Zero self-awareness.”,wh:“Bone-dry Kiwi humor meets horror tropes — every scene lands.”,mood:[“laugh”],energy:[“little”],len:[“short”],who:[“solo”,“friends”,“couple”],era:[“new”],sub:“ok”,genre:[“comedy”,“horror”],end:“open”,style:[“gritty”],pace:“mid”,set:“modern”,intens:“light”,twist:“no”},
-{t:“The Death of Stalin”,y:2017,d:“Armando Iannucci”,r:“1h 47m”,fl:“🇬🇧”,g:“Dark Comedy”,tl:“History’s most terrifying power struggle, played for laughs.”,wh:“Pitch-black satire that somehow makes the Soviet purges hilarious.”,mood:[“laugh”,“mindblow”],energy:[“mid”,“full”],len:[“mid”],who:[“solo”,“couple”],era:[“new”],sub:“ok”,genre:[“comedy”,“drama”],end:“open”,style:[“gritty”],pace:“fast”,set:“hist”,intens:“med”,twist:“maybe”},
-{t:“Barb and Star Go to Vista Del Mar”,y:2021,d:“Josh Greenbaum”,r:“1h 47m”,fl:“🇺🇸”,g:“Comedy”,tl:“Absolutely unhinged. Absolutely delightful.”,wh:“A go-for-broke comedy that commits fully to every absurd bit — pure joy.”,mood:[“laugh”],energy:[“zero”],len:[“mid”],who:[“friends”,“couple”],era:[“new”],sub:“ok”,genre:[“comedy”],end:“happy”,style:[“colorful”],pace:“mid”,set:“modern”,intens:“light”,twist:“no”},
-{t:“Four Weddings and a Funeral”,y:1994,d:“Mike Newell”,r:“1h 57m”,fl:“🇬🇧”,g:“Romantic Comedy”,tl:“Endlessly charming British awkwardness at its finest.”,wh:“Hugh Grant at his most lovable — funny, warm, and unexpectedly moving.”,mood:[“laugh”,“feel”],energy:[“little”],len:[“mid”],who:[“solo”,“couple”],era:[“90s”],sub:“ok”,genre:[“comedy”,“romance”],end:“happy”,style:[“cozy”],pace:“mid”,set:“modern”,intens:“light”,twist:“no”},
-{t:“This Is Spinal Tap”,y:1984,d:“Rob Reiner”,r:“1h 22m”,fl:“🇺🇸”,g:“Mockumentary / Comedy”,tl:“These go to eleven.”,wh:“The funniest music movie ever made — invented an entire comedy genre.”,mood:[“laugh”],energy:[“zero”],len:[“short”],who:[“friends”,“solo”],era:[“classic”],sub:“ok”,genre:[“comedy”],end:“happy”,style:[“gritty”],pace:“mid”,set:“modern”,intens:“light”,twist:“no”},
-{t:“Hunt for the Wilderpeople”,y:2016,d:“Taika Waititi”,r:“1h 41m”,fl:“🇳🇿”,g:“Adventure / Comedy”,tl:“New Zealand’s most wanted: a surly old man and a chubby kid.”,wh:“Funny, moving, and breathtakingly shot — Waititi at his most warm-hearted.”,mood:[“laugh”,“feel”,“chill”],energy:[“little”],len:[“mid”],who:[“solo”,“couple”,“friends”,“family”],era:[“new”],sub:“ok”,genre:[“comedy”,“drama”,“adventure”],end:“happy”,style:[“colorful”,“cozy”],pace:“mid”,set:“modern”,intens:“light”,twist:“no”},
-{t:“Bridesmaids”,y:2011,d:“Paul Feig”,r:“2h 5m”,fl:“🇺🇸”,g:“Comedy”,tl:“Raunchy, tender, and one of the funniest films of the decade.”,wh:“Melissa McCarthy’s breakout performance in a comedy that genuinely earns its heart.”,mood:[“laugh”],energy:[“zero”,“little”],len:[“long”],who:[“friends”,“couple”],era:[“new”],sub:“ok”,genre:[“comedy”,“romance”],end:“happy”,style:[“colorful”],pace:“mid”,set:“modern”,intens:“light”,twist:“no”},
-{t:“The Big Lebowski”,y:1998,d:“Coen Brothers”,r:“1h 57m”,fl:“🇺🇸”,g:“Comedy / Crime”,tl:“The Dude abides.”,wh:“Cult comedy royalty — endlessly quotable, effortlessly cool, philosophically nihilistic.”,mood:[“laugh”,“chill”],energy:[“zero”],len:[“mid”],who:[“friends”,“solo”],era:[“90s”],sub:“ok”,genre:[“comedy”,“crime”],end:“open”,style:[“gritty”,“colorful”],pace:“mid”,set:“modern”,intens:“light”,twist:“maybe”},
-{t:“Airplane!”,y:1980,d:“Abrahams / Zucker / Zucker”,r:“1h 28m”,fl:“🇺🇸”,g:“Comedy / Parody”,tl:“The gag-per-minute ratio has never been matched.”,wh:“Pure comedic bliss — rapid-fire jokes, zero pretension, maximum laughs.”,mood:[“laugh”],energy:[“zero”],len:[“short”],who:[“friends”,“family”,“solo”],era:[“classic”],sub:“ok”,genre:[“comedy”],end:“happy”,style:[“colorful”],pace:“fast”,set:“modern”,intens:“light”,twist:“no”},
-{t:“Office Space”,y:1999,d:“Mike Judge”,r:“1h 29m”,fl:“🇺🇸”,g:“Comedy”,tl:“Every office worker’s revenge fantasy.”,wh:“Painfully, perfectly accurate satire of corporate life — a cult classic for good reason.”,mood:[“laugh”,“chill”],energy:[“zero”,“little”],len:[“short”],who:[“solo”,“friends”,“couple”],era:[“90s”],sub:“ok”,genre:[“comedy”],end:“happy”,style:[“gritty”],pace:“mid”,set:“modern”,intens:“light”,twist:“no”},
-{t:“Crazy Rich Asians”,y:2018,d:“Jon M. Chu”,r:“2h”,fl:“🇺🇸”,g:“Romantic Comedy”,tl:“Gorgeous, fun, and genuinely crowd-pleasing.”,wh:“A lavish romcom with real cultural specificity — glamorous and warm in equal measure.”,mood:[“laugh”,“feel”],energy:[“zero”,“little”],len:[“long”],who:[“couple”,“friends”,“family”],era:[“new”],sub:“ok”,genre:[“comedy”,“romance”],end:“happy”,style:[“colorful”,“stylized”],pace:“mid”,set:“modern”,intens:“light”,twist:“no”},
-{t:“The Farewell”,y:2019,d:“Lulu Wang”,r:“1h 38m”,fl:“🇺🇸”,g:“Comedy / Drama”,tl:“A family keeps a secret from the person they love most.”,wh:“Funny and quietly devastating — one of the most culturally specific yet universally resonant films in years.”,mood:[“feel”,“laugh”],energy:[“mid”],len:[“short”],who:[“solo”,“couple”],era:[“new”],sub:“ok”,genre:[“comedy”,“drama”],end:“open”,style:[“cozy”],pace:“mid”,set:“modern”,intens:“med”,twist:“no”},
-{t:“Palm Springs”,y:2020,d:“Max Barbakow”,r:“1h 30m”,fl:“🇺🇸”,g:“Romantic Comedy / Sci-Fi”,tl:“Groundhog Day for people who’ve given up.”,wh:“A brilliant, funny, surprisingly touching take on the time loop — perfect date movie.”,mood:[“laugh”,“feel”],energy:[“little”],len:[“short”],who:[“couple”,“friends”],era:[“new”],sub:“ok”,genre:[“comedy”,“romance”,“scifi”],end:“happy”,style:[“colorful”],pace:“mid”,set:“modern”,intens:“light”,twist:“yes”},
+{t:"The Grand Budapest Hotel",y:2014,d:"Wes Anderson",r:"1h 39m",fl:"🇩🇪",g:"Comedy / Adventure",tl:"A perfectly absurd caper wrapped in pink pastry.",wh:"Wes Anderson at his most exuberant — exquisitely designed, hilarious, and just melancholy enough to linger.",mood:["laugh","chill"],energy:["little","mid"],len:["mid"],who:["solo","couple","friends"],era:["new"],sub:"ok",genre:["comedy","adventure"],end:"open",style:["colorful","stylized"],pace:"mid",set:"hist",intens:"light",twist:"maybe"},
+{t:"Superbad",y:2007,d:"Greg Mottola",r:"1h 53m",fl:"🇺🇸",g:"Comedy",tl:"One legendary night of spectacular failure.",wh:"Endlessly quotable, surprisingly heartfelt, and the definitive hangout comedy.",mood:["laugh"],energy:["zero","little"],len:["mid"],who:["friends"],era:["2000s"],sub:"ok",genre:["comedy"],end:"happy",style:["gritty"],pace:"fast",set:"modern",intens:"light",twist:"no"},
+{t:"Game Night",y:2018,d:"John Francis Daley",r:"1h 40m",fl:"🇺🇸",g:"Comedy / Thriller",tl:"A game night that gets very, very real.",wh:"Clever, self-aware, and genuinely funny — great for groups who want laughs with a twist.",mood:["laugh","excited"],energy:["little","mid"],len:["mid"],who:["friends","couple"],era:["new"],sub:"ok",genre:["comedy","thriller"],end:"happy",style:["colorful","stylized"],pace:"fast",set:"modern",intens:"light",twist:"yes"},
+{t:"Knives Out",y:2019,d:"Rian Johnson",r:"2h 10m",fl:"🇺🇸",g:"Mystery / Comedy",tl:"Everyone's a suspect. Everyone's lying. It's delightful.",wh:"A masterclass in fun — smart, funny, endlessly rewatchable. Perfect for any crowd.",mood:["laugh","mindblow"],energy:["mid"],len:["long"],who:["solo","couple","friends","family"],era:["new"],sub:"ok",genre:["comedy","mystery","thriller"],end:"happy",style:["cozy","stylized"],pace:"mid",set:"modern",intens:"light",twist:"yes"},
+{t:"The Nice Guys",y:2016,d:"Shane Black",r:"1h 56m",fl:"🇺🇸",g:"Comedy / Noir",tl:"Two terrible detectives, one perfect movie.",wh:"Crackerjack chemistry, sharp writing, killer 70s LA setting — wildly underrated.",mood:["laugh","excited"],energy:["mid"],len:["mid"],who:["solo","couple","friends"],era:["new"],sub:"ok",genre:["comedy","crime","thriller"],end:"open",style:["gritty","stylized"],pace:"fast",set:"hist",intens:"med",twist:"yes"},
+{t:"Clue",y:1985,d:"Jonathan Lynn",r:"1h 34m",fl:"🇺🇸",g:"Comedy / Mystery",tl:"Three endings. Zero explanations. Total chaos.",wh:"Absurdist, theatrical, wildly fun — the ultimate group watch.",mood:["laugh"],energy:["zero","little"],len:["short"],who:["friends","family"],era:["classic"],sub:"ok",genre:["comedy","mystery"],end:"happy",style:["cozy"],pace:"mid",set:"hist",intens:"light",twist:"yes"},
+{t:"Paddington 2",y:2017,d:"Paul King",r:"1h 43m",fl:"🇬🇧",g:"Comedy / Family",tl:"The most wholesome film ever made, full stop.",wh:"Genuinely perfect. Kind, funny, visually inventive — adults love it as much as kids.",mood:["laugh","chill"],energy:["zero"],len:["mid"],who:["kids","family"],era:["new"],sub:"ok",genre:["comedy","animation"],end:"happy",style:["colorful","cozy"],pace:"mid",set:"modern",intens:"light",twist:"no"},
+{t:"What We Do in the Shadows",y:2014,d:"Taika Waititi",r:"1h 26m",fl:"🇳🇿",g:"Horror Comedy",tl:"Vampire flatmates. Zero self-awareness.",wh:"Bone-dry Kiwi humor meets horror tropes — every scene lands.",mood:["laugh"],energy:["little"],len:["short"],who:["solo","friends","couple"],era:["new"],sub:"ok",genre:["comedy","horror"],end:"open",style:["gritty"],pace:"mid",set:"modern",intens:"light",twist:"no"},
+{t:"The Death of Stalin",y:2017,d:"Armando Iannucci",r:"1h 47m",fl:"🇬🇧",g:"Dark Comedy",tl:"History's most terrifying power struggle, played for laughs.",wh:"Pitch-black satire that somehow makes the Soviet purges hilarious.",mood:["laugh","mindblow"],energy:["mid","full"],len:["mid"],who:["solo","couple"],era:["new"],sub:"ok",genre:["comedy","drama"],end:"open",style:["gritty"],pace:"fast",set:"hist",intens:"med",twist:"maybe"},
+{t:"Barb and Star Go to Vista Del Mar",y:2021,d:"Josh Greenbaum",r:"1h 47m",fl:"🇺🇸",g:"Comedy",tl:"Absolutely unhinged. Absolutely delightful.",wh:"A go-for-broke comedy that commits fully to every absurd bit — pure joy.",mood:["laugh"],energy:["zero"],len:["mid"],who:["friends","couple"],era:["new"],sub:"ok",genre:["comedy"],end:"happy",style:["colorful"],pace:"mid",set:"modern",intens:"light",twist:"no"},
+{t:"Four Weddings and a Funeral",y:1994,d:"Mike Newell",r:"1h 57m",fl:"🇬🇧",g:"Romantic Comedy",tl:"Endlessly charming British awkwardness at its finest.",wh:"Hugh Grant at his most lovable — funny, warm, and unexpectedly moving.",mood:["laugh","feel"],energy:["little"],len:["mid"],who:["solo","couple"],era:["90s"],sub:"ok",genre:["comedy","romance"],end:"happy",style:["cozy"],pace:"mid",set:"modern",intens:"light",twist:"no"},
+{t:"This Is Spinal Tap",y:1984,d:"Rob Reiner",r:"1h 22m",fl:"🇺🇸",g:"Mockumentary / Comedy",tl:"These go to eleven.",wh:"The funniest music movie ever made — invented an entire comedy genre.",mood:["laugh"],energy:["zero"],len:["short"],who:["friends","solo"],era:["classic"],sub:"ok",genre:["comedy"],end:"happy",style:["gritty"],pace:"mid",set:"modern",intens:"light",twist:"no"},
+{t:"Hunt for the Wilderpeople",y:2016,d:"Taika Waititi",r:"1h 41m",fl:"🇳🇿",g:"Adventure / Comedy",tl:"New Zealand's most wanted: a surly old man and a chubby kid.",wh:"Funny, moving, and breathtakingly shot — Waititi at his most warm-hearted.",mood:["laugh","feel","chill"],energy:["little"],len:["mid"],who:["solo","couple","friends","family"],era:["new"],sub:"ok",genre:["comedy","drama","adventure"],end:"happy",style:["colorful","cozy"],pace:"mid",set:"modern",intens:"light",twist:"no"},
+{t:"Bridesmaids",y:2011,d:"Paul Feig",r:"2h 5m",fl:"🇺🇸",g:"Comedy",tl:"Raunchy, tender, and one of the funniest films of the decade.",wh:"Melissa McCarthy's breakout performance in a comedy that genuinely earns its heart.",mood:["laugh"],energy:["zero","little"],len:["long"],who:["friends","couple"],era:["new"],sub:"ok",genre:["comedy","romance"],end:"happy",style:["colorful"],pace:"mid",set:"modern",intens:"light",twist:"no"},
+{t:"The Big Lebowski",y:1998,d:"Coen Brothers",r:"1h 57m",fl:"🇺🇸",g:"Comedy / Crime",tl:"The Dude abides.",wh:"Cult comedy royalty — endlessly quotable, effortlessly cool, philosophically nihilistic.",mood:["laugh","chill"],energy:["zero"],len:["mid"],who:["friends","solo"],era:["90s"],sub:"ok",genre:["comedy","crime"],end:"open",style:["gritty","colorful"],pace:"mid",set:"modern",intens:"light",twist:"maybe"},
+{t:"Airplane!",y:1980,d:"Abrahams / Zucker / Zucker",r:"1h 28m",fl:"🇺🇸",g:"Comedy / Parody",tl:"The gag-per-minute ratio has never been matched.",wh:"Pure comedic bliss — rapid-fire jokes, zero pretension, maximum laughs.",mood:["laugh"],energy:["zero"],len:["short"],who:["friends","family","solo"],era:["classic"],sub:"ok",genre:["comedy"],end:"happy",style:["colorful"],pace:"fast",set:"modern",intens:"light",twist:"no"},
+{t:"Office Space",y:1999,d:"Mike Judge",r:"1h 29m",fl:"🇺🇸",g:"Comedy",tl:"Every office worker's revenge fantasy.",wh:"Painfully, perfectly accurate satire of corporate life — a cult classic for good reason.",mood:["laugh","chill"],energy:["zero","little"],len:["short"],who:["solo","friends","couple"],era:["90s"],sub:"ok",genre:["comedy"],end:"happy",style:["gritty"],pace:"mid",set:"modern",intens:"light",twist:"no"},
+{t:"Crazy Rich Asians",y:2018,d:"Jon M. Chu",r:"2h",fl:"🇺🇸",g:"Romantic Comedy",tl:"Gorgeous, fun, and genuinely crowd-pleasing.",wh:"A lavish romcom with real cultural specificity — glamorous and warm in equal measure.",mood:["laugh","feel"],energy:["zero","little"],len:["long"],who:["couple","friends","family"],era:["new"],sub:"ok",genre:["comedy","romance"],end:"happy",style:["colorful","stylized"],pace:"mid",set:"modern",intens:"light",twist:"no"},
+{t:"The Farewell",y:2019,d:"Lulu Wang",r:"1h 38m",fl:"🇺🇸",g:"Comedy / Drama",tl:"A family keeps a secret from the person they love most.",wh:"Funny and quietly devastating — one of the most culturally specific yet universally resonant films in years.",mood:["feel","laugh"],energy:["mid"],len:["short"],who:["solo","couple"],era:["new"],sub:"ok",genre:["comedy","drama"],end:"open",style:["cozy"],pace:"mid",set:"modern",intens:"med",twist:"no"},
+{t:"Palm Springs",y:2020,d:"Max Barbakow",r:"1h 30m",fl:"🇺🇸",g:"Romantic Comedy / Sci-Fi",tl:"Groundhog Day for people who've given up.",wh:"A brilliant, funny, surprisingly touching take on the time loop — perfect date movie.",mood:["laugh","feel"],energy:["little"],len:["short"],who:["couple","friends"],era:["new"],sub:"ok",genre:["comedy","romance","scifi"],end:"happy",style:["colorful"],pace:"mid",set:"modern",intens:"light",twist:"yes"},
 
 // ── DRAMA ────────────────────────────────────────────────────────────────────
 {t:“Whiplash”,y:2014,d:“Damien Chazelle”,r:“1h 47m”,fl:“🇺🇸”,g:“Drama / Music”,tl:“How far is too far in pursuit of greatness?”,wh:“Relentlessly intense — a battle of wills that’ll leave you breathless.”,mood:[“excited”,“feel”],energy:[“mid”,“full”],len:[“mid”],who:[“solo”,“couple”],era:[“new”],sub:“ok”,genre:[“drama”],end:“open”,style:[“gritty”,“dark”],pace:“fast”,set:“modern”,intens:“heavy”,twist:“no”},
@@ -426,7 +469,7 @@ const QS = [
 {id:“avoid”,  text:“Any topics that are off-limits tonight?”,             type:“text”,   ph:“e.g. grief, war, nothing specific…”},
 ];
 
-// ── SCORING ───────────────────────────────────────────────────────────────────
+────
 function score(film, ans, seen) {
 if (seen.includes(film.t)) return -9999;
 let s = 0;
@@ -525,163 +568,155 @@ return scored[0].f;
 }
 
 function pick(ans, seen) {
-const scored = F.map(f => ({f, s: score(f, ans, seen)}));
-scored.sort((a,b) => b.s - a.s);
+var scored = F.map(function(f){ return {f:f, s:score(f,ans,seen)}; });
+scored.sort(function(a,b){ return b.s-a.s; });
 return scored[0].f;
 }
 
-function App() {
-const [phase, setPhase]   = useState(‘intro’);
-const [qi, setQi]         = useState(0);
-const [ans, setAns]       = useState({});
-const [sel, setSel]       = useState(null);
-const [txt, setTxt]       = useState(’’);
-const [movie, setMovie]   = useState(null);
-const [seen, setSeen]     = useState([]);
-const [anim, setAnim]     = useState(0);
-
-const q = QS[qi];
-const prog = Math.round((qi / QS.length) * 100);
-const gold = ‘#b8820a’, goldL = ‘#e0a820’;
-
-const handleSel = opt => {
-if (q.multi) { const c = Array.isArray(sel)?sel:[]; setSel(c.includes(opt)?c.filter(o=>o!==opt):[…c,opt]); }
-else setSel(opt);
+var state = {
+phase: ‘intro’,
+qi: 0,
+ans: {},
+sel: null,
+txt: ‘’,
+movie: null,
+seen: [],
 };
 
-const advance = (skip=false) => {
-const val = skip ? ‘skip’ : (q.type===‘text’ ? (txt.trim()||‘skip’) : (sel||‘skip’));
-const na = {…ans, [q.id]: val};
-setAns(na); setSel(null); setTxt(’’); setAnim(a=>a+1);
-if (qi < QS.length-1) setQi(qi+1);
-else { setMovie(pick(na,seen)); setPhase(‘result’); }
-};
+function render() {
+var root = document.getElementById(‘root’);
+var q = QS[state.qi];
+var prog = Math.round((state.qi / QS.length) * 100);
 
-const nextSug = () => {
-const ns = […seen, movie.t];
-setSeen(ns);
-setMovie(pick(ans,ns));
-setAnim(a=>a+1);
-};
-
-const restart = () => {
-setPhase(‘intro’); setQi(0); setAns({}); setSel(null);
-setTxt(’’); setMovie(null); setSeen([]); setAnim(0);
-};
-
-const S = {
-root:{minHeight:‘100vh’,background:’#07070e’,color:’#ede8df’,fontFamily:”‘Georgia’,‘Times New Roman’,serif”,display:‘flex’,flexDirection:‘column’,alignItems:‘center’,justifyContent:‘center’,padding:‘32px 20px’,position:‘relative’,overflow:‘hidden’},
-card:{position:‘relative’,zIndex:1,width:‘100%’,maxWidth:‘580px’},
-glow1:{position:‘fixed’,top:’-25%’,left:‘50%’,transform:‘translateX(-50%)’,width:‘800px’,height:‘600px’,borderRadius:‘50%’,background:‘radial-gradient(ellipse,rgba(200,140,10,.06) 0%,transparent 65%)’,pointerEvents:‘none’},
-glow2:{position:‘fixed’,bottom:’-30%’,right:’-15%’,width:‘600px’,height:‘600px’,borderRadius:‘50%’,background:‘radial-gradient(ellipse,rgba(80,40,160,.05) 0%,transparent 65%)’,pointerEvents:‘none’},
-};
-
-return (
-<div style={S.root}>
-<style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}} @keyframes flicker{0%,100%{opacity:1}93%{opacity:.4}94%{opacity:1}} .fu{animation:fadeUp .4s cubic-bezier(.25,.8,.25,1) both} .opt{transition:all .15s;cursor:pointer}.opt:hover{transform:translateX(4px)} .btn{transition:opacity .2s,transform .15s;cursor:pointer}.btn:hover{opacity:.82;transform:translateY(-1px)} input{transition:border-color .2s}input:focus{border-color:#b8820a!important;outline:none} input::placeholder{color:#2a2618}`}</style>
-<div style={S.glow1}/>
-<div style={S.glow2}/>
-<div style={S.card}>
-
-```
-    {phase==='intro' && (
-      <div className='fu' style={{textAlign:'center'}}>
-        <div style={{fontSize:'11px',letterSpacing:'.4em',color:gold,textTransform:'uppercase',marginBottom:'28px',animation:'flicker 6s infinite'}}>✦  The Projectionist  ✦</div>
-        <h1 style={{fontSize:'clamp(40px,9vw,70px)',fontWeight:400,fontStyle:'italic',lineHeight:1.05,marginBottom:'22px'}}>What should<br/>you watch?</h1>
-        <p style={{color:'#5a5040',fontSize:'16px',lineHeight:1.75,maxWidth:'360px',margin:'0 auto 12px'}}>{QS.length} questions. 300+ hand-selected films. One perfect pick.</p>
-        <p style={{color:'#2e2a20',fontSize:'13px',marginBottom:'48px'}}>Not feeling it? Hit Next suggestion as many times as you want.</p>
-        <button className='btn' onClick={()=>setPhase('questions')} style={{background:gold,color:'#07070e',border:'none',padding:'17px 52px',fontSize:'12px',fontFamily:'inherit',letterSpacing:'.25em',textTransform:'uppercase',fontWeight:700,cursor:'pointer'}}>Let's Begin</button>
-      </div>
-    )}
-
-    {phase==='questions' && (
-      <div key={anim} className='fu'>
-        <div style={{marginBottom:'36px'}}>
-          <div style={{display:'flex',justifyContent:'space-between',marginBottom:'10px'}}>
-            <span style={{fontSize:'10px',letterSpacing:'.3em',color:gold,textTransform:'uppercase'}}>{qi+1} / {QS.length}</span>
-            <span style={{fontSize:'10px',color:'#2e2a20'}}>{prog}%</span>
-          </div>
-          <div style={{height:'1px',background:'#161410'}}>
-            <div style={{height:'100%',width:`${prog}%`,background:`linear-gradient(90deg,${gold},${goldL})`,transition:'width .5s ease'}}/>
-          </div>
-        </div>
-
-        <h2 style={{fontSize:'clamp(20px,4.5vw,30px)',fontWeight:400,fontStyle:'italic',marginBottom:'28px',lineHeight:1.35}}>{q.text}</h2>
-
-        {q.type==='yesno' && (
-          <div style={{display:'flex',gap:'14px'}}>
-            {['Yes','No'].map(o => {
-              const on = sel===o;
-              return <button key={o} className='opt' onClick={()=>setSel(o)} style={{flex:1,padding:'20px',fontFamily:'inherit',fontSize:'17px',border:`1px solid ${on?gold:'#3a3828'}`,background:on?'rgba(184,130,10,.1)':'rgba(255,255,255,.01)',color:on?goldL:'#b0a090',cursor:'pointer'}}>{o}</button>;
-            })}
-          </div>
-        )}
-
-        {q.type==='multi' && (
-          <div style={{display:'flex',flexDirection:'column',gap:'9px'}}>
-            {q.opts.map(o => {
-              const on = q.multi?(Array.isArray(sel)&&sel.includes(o)):sel===o;
-              return (
-                <button key={o} className='opt' onClick={()=>handleSel(o)} style={{padding:'13px 16px',textAlign:'left',fontFamily:'inherit',fontSize:'15px',border:`1px solid ${on?gold:'#3a3828'}`,background:on?'rgba(184,130,10,.07)':'rgba(255,255,255,.01)',color:on?'#ede8df':'#b0a090',display:'flex',alignItems:'center',gap:'13px',cursor:'pointer'}}>
-                  <span style={{width:'15px',height:'15px',flexShrink:0,border:`1px solid ${on?gold:'#5a5040'}`,borderRadius:q.multi?'2px':'50%',background:on?gold:'transparent',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'9px',color:'#07070e'}}>{on?'✓':''}</span>
-                  {o}
-                </button>
-              );
-            })}
-            {q.multi && <p style={{fontSize:'10px',color:'#2e2a20',letterSpacing:'.2em',textTransform:'uppercase',marginTop:'4px'}}>Select all that apply</p>}
-          </div>
-        )}
-
-        {q.type==='text' && (
-          <input value={txt} onChange={e=>setTxt(e.target.value)} onKeyDown={e=>e.key==='Enter'&&advance()} placeholder={q.ph} style={{width:'100%',padding:'16px 18px',background:'rgba(255,255,255,.02)',border:'1px solid #3a3828',color:'#ede8df',fontFamily:'inherit',fontSize:'16px',caretColor:gold}}/>
-        )}
-
-        <div style={{display:'flex',gap:'12px',marginTop:'30px'}}>
-          <button className='btn' onClick={()=>advance(false)} style={{background:gold,color:'#07070e',border:'none',padding:'15px 34px',fontSize:'12px',fontFamily:'inherit',letterSpacing:'.22em',textTransform:'uppercase',fontWeight:700,cursor:'pointer'}}>
-            {qi<QS.length-1?'Next →':'Find My Film'}
-          </button>
-          <button className='btn' onClick={()=>advance(true)} style={{background:'transparent',border:'1px solid #3a3828',color:'#b0a090',padding:'15px 22px',fontSize:'12px',fontFamily:'inherit',letterSpacing:'.18em',textTransform:'uppercase',cursor:'pointer'}}>Skip</button>
-        </div>
-      </div>
-    )}
-
-    {phase==='result' && movie && (
-      <div key={anim} className='fu'>
-        <div style={{fontSize:'10px',letterSpacing:'.35em',color:gold,textTransform:'uppercase',marginBottom:'26px'}}>✦  Tonight's Pick  ✦</div>
-        <div style={{border:'1px solid #1e1c12',padding:'32px 28px',marginBottom:'20px',position:'relative',background:'rgba(255,255,255,.012)'}}>
-          <div style={{position:'absolute',top:-1,left:-1,width:'36px',height:'36px',borderTop:`2px solid ${gold}`,borderLeft:`2px solid ${gold}`}}/>
-          <div style={{position:'absolute',bottom:-1,right:-1,width:'36px',height:'36px',borderBottom:`2px solid ${gold}`,borderRight:`2px solid ${gold}`}}/>
-          <div style={{display:'flex',alignItems:'baseline',gap:'12px',marginBottom:'8px',flexWrap:'wrap'}}>
-            <h2 style={{fontSize:'clamp(22px,5vw,34px)',fontWeight:400,fontStyle:'italic',margin:0,lineHeight:1.2}}>{movie.fl} {movie.t}</h2>
-            <span style={{fontSize:'15px',color:'#3e3828',flexShrink:0}}>{movie.y}</span>
-          </div>
-          <div style={{display:'flex',gap:'8px',marginBottom:'22px',flexWrap:'wrap',alignItems:'center'}}>
-            {[movie.d, movie.g, movie.r].filter(Boolean).map((item,i,arr)=>(
-              <span key={i} style={{display:'flex',alignItems:'center',gap:'8px'}}>
-                <span style={{fontSize:'11px',color:'#4a4030',letterSpacing:'.1em',textTransform:'uppercase'}}>{item}</span>
-                {i<arr.length-1&&<span style={{color:'#2a2818'}}>·</span>}
-              </span>
-            ))}
-          </div>
-          <p style={{fontSize:'17px',fontStyle:'italic',color:gold,lineHeight:1.55,marginBottom:'18px',borderLeft:`2px solid ${gold}`,paddingLeft:'16px'}}>"{movie.tl}"</p>
-          <p style={{fontSize:'14px',color:'#7a7060',lineHeight:1.75,margin:0}}>{movie.wh}</p>
-        </div>
-        <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
-          <button className='btn' onClick={nextSug} style={{background:'transparent',color:gold,border:`1px solid ${gold}`,padding:'16px',fontFamily:'inherit',fontSize:'12px',letterSpacing:'.22em',textTransform:'uppercase',cursor:'pointer'}}>Next Suggestion →</button>
-          <button className='btn' onClick={restart} style={{background:'transparent',border:'1px solid #3a3828',color:'#b0a090',padding:'14px',fontFamily:'inherit',fontSize:'12px',letterSpacing:'.18em',textTransform:'uppercase',cursor:'pointer'}}>Start Over</button>
-        </div>
-        {seen.length>0 && <p style={{fontSize:'10px',color:'#252218',textAlign:'center',marginTop:'18px',letterSpacing:'.18em',textTransform:'uppercase'}}>{seen.length} suggestion{seen.length!==1?'s':''} passed</p>}
-      </div>
-    )}
-
-  </div>
-</div>
-```
-
-);
+if (state.phase === ‘intro’) {
+root.innerHTML = ‘<div class="fu" style="text-align:center">’ +
+‘<div style="font-size:11px;letter-spacing:.4em;color:#b8820a;text-transform:uppercase;margin-bottom:28px;animation:flicker 6s infinite">✦  The Projectionist  ✦</div>’ +
+‘<h1 style="font-size:clamp(40px,9vw,70px);font-weight:400;font-style:italic;line-height:1.05;margin-bottom:22px">What should<br>you watch?</h1>’ +
+‘<p style="color:#5a5040;font-size:16px;line-height:1.75;max-width:360px;margin:0 auto 12px">’ + QS.length + ’ questions. 300+ hand-selected films. One perfect pick.</p>’ +
+‘<p style="color:#2e2a20;font-size:13px;margin-bottom:48px">Not feeling it? Hit Next suggestion as many times as you want.</p>’ +
+‘<button class="gold-btn" id="startBtn" style="padding:17px 52px;font-size:12px;letter-spacing:.25em">Let’s Begin</button>’ +
+‘</div>’;
+document.getElementById(‘startBtn’).onclick = function(){ state.phase=‘questions’; render(); };
 }
 
-ReactDOM.createRoot(document.getElementById(‘root’)).render(<App/>);
+else if (state.phase === ‘questions’) {
+var optionsHTML = ‘’;
+if (q.type === ‘yesno’) {
+optionsHTML = ‘<div class="yn">’ +
+[‘Yes’,‘No’].map(function(o){
+var on = state.sel === o;
+return ‘<button class="' + (on?'on':'') + '" data-val="' + o + '">’ + o + ‘</button>’;
+}).join(’’) + ‘</div>’;
+} else if (q.type === ‘multi’) {
+optionsHTML = ‘<div style="display:flex;flex-direction:column;gap:9px">’ +
+q.opts.map(function(o){
+var on = q.multi ? (Array.isArray(state.sel) && state.sel.includes(o)) : state.sel === o;
+return ‘<button class=“opt’ + (on?’ on’:’’) + ‘” data-val=”’ + o.replace(/”/g,’"’) + ‘”>’ +
+‘<span class="opt-check' + (q.multi?' sq':'') + '">’ + (on?‘✓’:’’) + ‘</span>’ + o + ‘</button>’;
+}).join(’’) +
+(q.multi ? ‘<p class="hint">Select all that apply</p>’ : ‘’) +
+‘</div>’;
+} else {
+optionsHTML = ‘<input type="text" id="txtInput" placeholder="' + (q.ph||'') + '" value="' + (state.txt||'') + '">’;
+}
+
+```
+root.innerHTML = '<div class="fu" id="qblock">' +
+  '<div class="progress-bar"><div class="progress-label"><span>' + (state.qi+1) + ' / ' + QS.length + '</span><span>' + prog + '%</span></div>' +
+  '<div style="height:1px;background:#161410"><div class="progress-fill" style="width:' + prog + '%"></div></div></div>' +
+  '<h2 style="font-size:clamp(20px,4.5vw,30px);font-weight:400;font-style:italic;margin-bottom:28px;line-height:1.35">' + q.text + '</h2>' +
+  optionsHTML +
+  '<div class="btn-row">' +
+  '<button class="gold-btn" id="nextBtn">' + (state.qi < QS.length-1 ? 'Next →' : 'Find My Film') + '</button>' +
+  '<button class="ghost-btn" id="skipBtn">Skip</button>' +
+  '</div></div>';
+
+// attach events
+if (q.type === 'yesno') {
+  root.querySelectorAll('.yn button').forEach(function(btn){
+    btn.onclick = function(){ state.sel = this.dataset.val; render(); };
+  });
+} else if (q.type === 'multi') {
+  root.querySelectorAll('.opt').forEach(function(btn){
+    btn.onclick = function(){
+      var val = this.dataset.val;
+      if (q.multi) {
+        var cur = Array.isArray(state.sel) ? state.sel : [];
+        state.sel = cur.includes(val) ? cur.filter(function(x){return x!==val;}) : cur.concat([val]);
+      } else { state.sel = val; }
+      render();
+    };
+  });
+} else {
+  var inp = document.getElementById('txtInput');
+  inp.focus();
+  inp.oninput = function(){ state.txt = this.value; };
+  inp.onkeydown = function(e){ if(e.key==='Enter') advance(false); };
+}
+
+document.getElementById('nextBtn').onclick = function(){ advance(false); };
+document.getElementById('skipBtn').onclick = function(){ advance(true); };
+```
+
+}
+
+else if (state.phase === ‘result’ && state.movie) {
+var m = state.movie;
+var metaItems = [m.d, m.g, m.r].filter(Boolean);
+var metaHTML = metaItems.map(function(item, i){
+return ‘<span>’ + item + ‘</span>’ + (i < metaItems.length-1 ? ‘<span class="meta-dot">·</span>’ : ‘’);
+}).join(’’);
+
+```
+root.innerHTML = '<div class="fu">' +
+  '<div class="section-label">✦ &nbsp;Tonight's Pick&nbsp; ✦</div>' +
+  '<div class="card">' +
+    '<div class="corner-tl"></div><div class="corner-br"></div>' +
+    '<div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px;flex-wrap:wrap">' +
+      '<h2 style="font-size:clamp(22px,5vw,34px);font-weight:400;font-style:italic;line-height:1.2">' + m.fl + ' ' + m.t + '</h2>' +
+      '<span style="font-size:15px;color:#3e3828">' + m.y + '</span>' +
+    '</div>' +
+    '<div class="meta">' + metaHTML + '</div>' +
+    '<p class="tagline">"' + m.tl + '"</p>' +
+    '<p class="why">' + m.wh + '</p>' +
+  '</div>' +
+  '<div class="action-col">' +
+    '<button class="ghost-btn gold" id="nextSugBtn">Next Suggestion →</button>' +
+    '<button class="ghost-btn dark" id="restartBtn">Start Over</button>' +
+  '</div>' +
+  (state.seen.length > 0 ? '<p class="passed">' + state.seen.length + ' suggestion' + (state.seen.length!==1?'s':'') + ' passed</p>' : '') +
+  '</div>';
+
+document.getElementById('nextSugBtn').onclick = function(){
+  state.seen.push(state.movie.t);
+  state.movie = pick(state.ans, state.seen);
+  render();
+};
+document.getElementById('restartBtn').onclick = function(){
+  state = {phase:'intro',qi:0,ans:{},sel:null,txt:'',movie:null,seen:[]};
+  render();
+};
+```
+
+}
+}
+
+function advance(skip) {
+var q = QS[state.qi];
+var val = skip ? ‘skip’ : (q.type===‘text’ ? (state.txt.trim()||‘skip’) : (state.sel||‘skip’));
+state.ans[q.id] = val;
+state.sel = null;
+state.txt = ‘’;
+if (state.qi < QS.length-1) {
+state.qi++;
+} else {
+state.movie = pick(state.ans, state.seen);
+state.phase = ‘result’;
+}
+render();
+}
+
+render();
 </script>
 
 </body>
