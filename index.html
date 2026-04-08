@@ -7,25 +7,25 @@
 <title>The Projectionist ? What Should You Watch?</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#07070e;color:#ede8df;font-family:Georgia,"Times New Roman",serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px}
+body{background:#07070e;color:#f5f0e8;font-family:Georgia,"Times New Roman",serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px}
 #root{width:100%;max-width:580px;position:relative;z-index:1}
 .glow1{position:fixed;top:-25%;left:50%;transform:translateX(-50%);width:800px;height:600px;border-radius:50%;background:radial-gradient(ellipse,rgba(200,140,10,.06) 0%,transparent 65%);pointer-events:none}
 .glow2{position:fixed;bottom:-30%;right:-15%;width:600px;height:600px;border-radius:50%;background:radial-gradient(ellipse,rgba(80,40,160,.05) 0%,transparent 65%);pointer-events:none}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes flicker{0%,100%{opacity:1}93%{opacity:.4}94%{opacity:1}}
 .fu{animation:fadeUp .4s cubic-bezier(.25,.8,.25,1) both}
-.opt{transition:all .15s;cursor:pointer;display:flex;align-items:center;gap:13px;padding:13px 16px;text-align:left;font-family:Georgia,"Times New Roman",serif;font-size:15px;border:1px solid #3a3828;background:rgba(255,255,255,.01);color:#b0a090;width:100%}
+.opt{transition:all .15s;cursor:pointer;display:flex;align-items:center;gap:13px;padding:13px 16px;text-align:left;font-family:Georgia,"Times New Roman",serif;font-size:15px;border:1px solid #3a3828;background:rgba(255,255,255,.01);color:#d8cfc0;width:100%}
 .opt:hover{transform:translateX(4px)}
-.opt.on{border-color:#b8820a;background:rgba(184,130,10,.07);color:#ede8df}
+.opt.on{border-color:#b8820a;background:rgba(184,130,10,.07);color:#f5f0e8}
 .opt-check{width:15px;height:15px;flex-shrink:0;border:1px solid #5a5040;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;font-size:9px;color:#07070e}
 .opt-check.sq{border-radius:2px}
 .opt.on .opt-check{border-color:#b8820a;background:#b8820a}
 .yn{display:flex;gap:14px}
-.yn button{flex:1;padding:20px;font-family:Georgia,"Times New Roman",serif;font-size:17px;border:1px solid #3a3828;background:rgba(255,255,255,.01);color:#b0a090;cursor:pointer;transition:all .15s}
+.yn button{flex:1;padding:20px;font-family:Georgia,"Times New Roman",serif;font-size:17px;border:1px solid #3a3828;background:rgba(255,255,255,.01);color:#d8cfc0;cursor:pointer;transition:all .15s}
 .yn button.on{border-color:#b8820a;background:rgba(184,130,10,.1);color:#e0a820}
 .gold-btn{background:#b8820a;color:#07070e;border:none;padding:15px 34px;font-size:12px;font-family:Georgia,"Times New Roman",serif;letter-spacing:.22em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:opacity .2s,transform .15s}
 .gold-btn:hover{opacity:.82;transform:translateY(-1px)}
-.ghost-btn{background:transparent;border:1px solid #3a3828;color:#b0a090;padding:15px 22px;font-size:12px;font-family:Georgia,"Times New Roman",serif;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:opacity .2s,transform .15s}
+.ghost-btn{background:transparent;border:1px solid #3a3828;color:#d8cfc0;padding:15px 22px;font-size:12px;font-family:Georgia,"Times New Roman",serif;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:opacity .2s,transform .15s}
 .ghost-btn:hover{opacity:.82;transform:translateY(-1px)}
 .ghost-btn.gold{border-color:#b8820a;color:#b8820a;padding:16px;width:100%}
 .ghost-btn.dark{width:100%;padding:14px}
@@ -40,11 +40,11 @@ body{background:#07070e;color:#ede8df;font-family:Georgia,"Times New Roman",seri
 .corner-br{position:absolute;bottom:-1px;right:-1px;width:36px;height:36px;border-bottom:2px solid #b8820a;border-right:2px solid #b8820a}
 .tagline{font-size:17px;font-style:italic;color:#b8820a;line-height:1.55;margin-bottom:18px;border-left:2px solid #b8820a;padding-left:16px}
 .meta{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;align-items:center}
-.meta span{font-size:11px;color:#4a4030;letter-spacing:.1em;text-transform:uppercase}
+.meta span{font-size:11px;color:#a09080;letter-spacing:.1em;text-transform:uppercase}
 .meta-dot{color:#2a2818}
 .why{font-size:14px;color:#7a7060;line-height:1.75}
 .section-label{font-size:10px;letter-spacing:.35em;color:#b8820a;text-transform:uppercase;margin-bottom:26px}
-input[type=text]{width:100%;padding:16px 18px;background:rgba(255,255,255,.02);border:1px solid #3a3828;color:#ede8df;font-family:Georgia,"Times New Roman",serif;font-size:16px;caret-color:#b8820a;outline:none}
+input[type=text]{width:100%;padding:16px 18px;background:rgba(255,255,255,.02);border:1px solid #3a3828;color:#f5f0e8;font-family:Georgia,"Times New Roman",serif;font-size:16px;caret-color:#b8820a;outline:none}
 input[type=text]:focus{border-color:#b8820a}
 input[type=text]::placeholder{color:#2a2618}
 .btn-row{display:flex;gap:12px;margin-top:30px}
