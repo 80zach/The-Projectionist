@@ -607,7 +607,7 @@ root.innerHTML = '<div class="fu" id="qblock">' +
   '<h2 style="font-size:clamp(20px,4.5vw,30px);font-weight:400;font-style:italic;margin-bottom:28px;line-height:1.35">' + q.text + '</h2>' +
   optionsHTML +
   '<div class="btn-row">' +
-  '<button class="gold-btn" id="nextBtn">' + (state.qi < QS.length-1 ? 'Next ?' : 'Find My Film') + '</button>' +
+  '<button class="gold-btn" id="nextBtn">' + (state.qi < QS.length-1 ? 'Next →' : 'Find My Film') + '</button>' +
   '<button class="ghost-btn" id="skipBtn">Skip</button>' +
   '</div></div>';
 
@@ -653,7 +653,7 @@ root.innerHTML = '<div class="fu">' +
   '<div class="card">' +
     '<div class="corner-tl"></div><div class="corner-br"></div>' +
     '<div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px;flex-wrap:wrap">' +
-      '<h2 style="font-size:clamp(22px,5vw,34px);font-weight:400;font-style:italic;line-height:1.2">' + m.fl + ' ' + m.t + '</h2>' +
+      '<h2 style="font-size:clamp(22px,5vw,34px);font-weight:400;font-style:italic;line-height:1.2">' + m.t + '</h2>' +
       '<span style="font-size:15px;color:#3e3828">' + m.y + '</span>' +
     '</div>' +
     '<div class="meta">' + metaHTML + '</div>' +
@@ -661,7 +661,7 @@ root.innerHTML = '<div class="fu">' +
     '<p class="why">' + m.wh + '</p>' +
   '</div>' +
   '<div class="action-col">' +
-    '<button class="ghost-btn gold" id="nextSugBtn">Next Suggestion ?</button>' +
+    '<button class="ghost-btn gold" id="nextSugBtn">Next Suggestion →</button>' +
     '<button class="ghost-btn dark" id="restartBtn">Start Over</button>' +
   '</div>' +
   (state.seen.length > 0 ? '<p class="passed">' + state.seen.length + ' suggestion' + (state.seen.length!==1?'s':'') + ' passed</p>' : '') +
